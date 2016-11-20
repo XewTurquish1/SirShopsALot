@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:text="1."
+        android:layout_height="wrap_content"
+        android:id="@+id/line_number"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_alignBaseline="@id/line_number"
+        android:layout_toEndOf="@+id/line_number"
+        android:layout_marginBottom="-5dp"/>
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="1dp"
+        android:background="@drawable/line_divider"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/checkBox"
+        android:layout_height="39dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_name"
+        android:textSize="18sp"
+        tools:textStyle="bold"
+        tools:text="Test"
+        android:layout_alignBaseline="@+id/checkBox"
+        android:layout_alignBottom="@+id/checkBox"
+        android:layout_toEndOf="@+id/seperator"
+        android:layout_marginStart="13dp"/>
+
+    <TextView
+        android:text="dairy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/department"
+        android:layout_toEndOf="@id/seperator"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="55dp"
+        android:textSize="10sp"/>
+
+    <View
+        android:id="@+id/seperator1"
+        android:layout_width="1dp"
+        android:background="@drawable/line_divider"
+        android:layout_marginLeft="220dp"
+        android:layout_height="39dp"/>
+
+    <TextView
+        android:text="Qty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qty_label"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/seperator1"
+        android:layout_alignBaseline="@id/line_number"
+        android:layout_marginLeft="7dp"/>
+
+    <TextView
+        tools:text="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_qty"
+        android:textSize="18sp"
+        android:layout_toEndOf="@id/qty_label"
+        android:layout_alignBaseline="@id/line_number"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"/>
+
+    <View
+        android:id="@+id/seperator2"
+        android:layout_width="1dp"
+        android:background="@drawable/line_divider"
+        android:backgroundTint="@android:color/black"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="303dp"
+        android:layout_height="39dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:id="@+id/edit_button"
+        android:backgroundTint="@android:color/background_light"
+        android:scaleY="1.2"
+        android:layout_marginTop="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/seperator2"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_height="wrap_content"
+        android:paddingBottom="0px"
+        android:paddingTop="0px"
+        android:layout_marginBottom="-10dp"/>
+
+</RelativeLayout>
