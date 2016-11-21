@@ -1,6 +1,7 @@
 package cs3410.voodoomissilse.sirshopsalot;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,8 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends AppCompatActivity
+		implements ListNameDialogFragment.ListNameDialogListener {
 	private List<ShoppingList> lists;
 
 	@Override
@@ -58,9 +60,8 @@ public class ShoppingListActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View view) {
 				//Use ListNameDialogFragment here.
-			ShoppingList newList = new ShoppingList("ADD");
-			myRecyclerVewAdapter.add(newList);
-			listView.scrollToPosition(lists.size()-1);
+				ListNameDialogFragment dialog = new ListNameDialogFragment();
+				dialog.show(getFragmentManager(),"NoticeDialogFragment");
 			}
 		});
 
@@ -174,5 +175,19 @@ public class ShoppingListActivity extends AppCompatActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		ShoppingList newList = new ShoppingList(((ListNameDialogFragment)dialog).name);
+		RecyclerView listView = (RecyclerView) findViewById(R.id.shoppingList);
+		ShoppingListAdapter myRecyclerVewAdapter = new ShoppingListAdapter(this, lists, R.layout.shopping_list_item);
+		myRecyclerVewAdapter.add(newList);
+		listView.scrollToPosition(lists.size()-1);
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+
 	}
 }

@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class ListActivity extends AppCompatActivity
-	implements ListNameDialogFragment.ListNameDialogListener{
+	implements ListNameDialogFragment.ListNameDialogListener {
 	private ShoppingList list;
 
 	@Override
