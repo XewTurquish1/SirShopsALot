@@ -158,6 +158,15 @@ public class ItemDetailActivity extends AppCompatActivity {
 				return true;
 			}
 		});
+
+		ImageButton settings = (ImageButton) findViewById(R.id.settingsButton);
+		settings.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(act, SettingLoginActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
