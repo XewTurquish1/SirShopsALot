@@ -1,11 +1,13 @@
 package cs3410.voodoomissilse.sirshopsalot;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final Activity act = this;
 		if(lists == null)
 			lists = new ArrayList<>();
 
@@ -45,13 +49,66 @@ public class ShoppingListActivity extends AppCompatActivity {
 		listView.setLayoutManager(new LinearLayoutManager(this));
 		listView.addItemDecoration(new SimpleDividerItemDecoration(this));
 
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		final FloatingActionButton fabdelete = (FloatingActionButton) findViewById(R.id.fabdelete);
+		final FloatingActionButton fabundo = (FloatingActionButton) findViewById(R.id.fabundo);
+
+
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				//Use ListNameDialogFragment here.
 			ShoppingList newList = new ShoppingList("ADD");
 			myRecyclerVewAdapter.add(newList);
 			listView.scrollToPosition(lists.size()-1);
+			}
+		});
+
+		fabundo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				myRecyclerVewAdapter.setOutDeleteMode();
+				fabdelete.hide();
+				fabundo.hide();
+				fab.show();
+			}
+		});
+
+		fabdelete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(act);
+				builder
+						.setMessage("Are you sure you want to delete the shopping lists?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								myRecyclerVewAdapter.delete();
+								myRecyclerVewAdapter.setOutDeleteMode();
+								fabdelete.hide();
+								fabundo.hide();
+								fab.show();
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						})
+						.show();
+			}
+		});
+
+		ImageButton delete = (ImageButton) findViewById(R.id.trashButton);
+		delete.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				myRecyclerVewAdapter.setInDeleteMode();
+				fab.hide();
+				fabdelete.show();
+				fabundo.show();
+				return true;
 			}
 		});
 	}

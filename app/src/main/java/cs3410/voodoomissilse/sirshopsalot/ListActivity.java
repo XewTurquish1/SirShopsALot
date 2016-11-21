@@ -3,15 +3,18 @@ package cs3410.voodoomissilse.sirshopsalot;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ public class ListActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final Activity act = this;
 
 		setContentView(R.layout.activity_list);
 		Intent intent = getIntent();
@@ -58,7 +62,10 @@ public class ListActivity extends AppCompatActivity
 
 
 		final Context context = this;
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		final FloatingActionButton fabdelete = (FloatingActionButton) findViewById(R.id.fabdelete);
+		final FloatingActionButton fabundo = (FloatingActionButton) findViewById(R.id.fabundo);
+
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -68,6 +75,54 @@ public class ListActivity extends AppCompatActivity
 				intent.putExtra("Item", item);
 
 				((Activity)context).startActivityForResult(intent, list.getItems().size());
+			}
+		});
+
+		fabundo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				myRecyclerVewAdapter.setOutDeleteMode();
+				fabdelete.hide();
+				fabundo.hide();
+				fab.show();
+			}
+		});
+
+		fabdelete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(act);
+				builder
+						.setMessage("Are you sure you want to delete the shopping list items?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								myRecyclerVewAdapter.delete();
+								myRecyclerVewAdapter.setOutDeleteMode();
+								fabdelete.hide();
+								fabundo.hide();
+								fab.show();
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						})
+						.show();
+			}
+		});
+
+		ImageButton delete = (ImageButton) findViewById(R.id.trashButton);
+		delete.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				myRecyclerVewAdapter.setInDeleteMode();
+				fab.hide();
+				fabdelete.show();
+				fabundo.show();
+				return true;
 			}
 		});
 	}
@@ -93,13 +148,21 @@ public class ListActivity extends AppCompatActivity
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == Activity.RESULT_CANCELED)
 			return;
-		Toast.makeText(this, "Results " + String.valueOf(requestCode), Toast.LENGTH_SHORT).show();
-
-		ShoppingListItem item = data.getParcelableExtra("Item");
-
 		RecyclerView listView = (RecyclerView) findViewById(R.id.shoppingList);
 
 		List<ShoppingListItem> items = list.getItems();
+
+		if(resultCode == Activity.RESULT_FIRST_USER) {
+			items.remove(requestCode);
+
+			listView.getAdapter().notifyDataSetChanged();
+			return;
+		}
+		//Toast.makeText(this, "Results " + String.valueOf(requestCode), Toast.LENGTH_SHORT).show();
+
+		ShoppingListItem item = data.getParcelableExtra("Item");
+
+
 
 		boolean departmentChanged = false;
 

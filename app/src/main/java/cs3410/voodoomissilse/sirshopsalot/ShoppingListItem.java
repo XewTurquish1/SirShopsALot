@@ -2,7 +2,6 @@ package cs3410.voodoomissilse.sirshopsalot;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 public class ShoppingListItem
 	implements Parcelable, Comparable<ShoppingListItem> {

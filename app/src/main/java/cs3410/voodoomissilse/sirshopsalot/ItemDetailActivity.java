@@ -1,9 +1,11 @@
 package cs3410.voodoomissilse.sirshopsalot;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -23,6 +26,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final Activity act = this;
 
 		setContentView(R.layout.activity_item_detail);
 
@@ -127,6 +131,31 @@ public class ItemDetailActivity extends AppCompatActivity {
 				results.putExtra("Item", item);
 				setResult(Activity.RESULT_OK, results);
 				finish();
+			}
+		});
+
+		ImageButton delete = (ImageButton) findViewById(R.id.trashButton);
+		delete.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(act);
+				builder
+						.setMessage("Are you sure you want to delete the item?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								setResult(Activity.RESULT_FIRST_USER);
+								finish();
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								dialogInterface.cancel();
+							}
+						})
+						.show();
+				return true;
 			}
 		});
 	}

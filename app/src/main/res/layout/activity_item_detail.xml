@@ -167,7 +167,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="?android:attr/textCheckMark"
+        app:srcCompat="@drawable/ic_check"
         android:id="@+id/accept_button"
         android:layout_weight="1"
         android:layout_gravity="bottom|right"

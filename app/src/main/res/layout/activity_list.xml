@@ -74,4 +74,26 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add"
         app:backgroundTint="@color/colorFloatingButton" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabdelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_check"
+        app:backgroundTint="@android:color/holo_red_light"
+        android:tint="@android:color/holo_red_dark"
+        android:visibility="invisible"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabundo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_undo"
+        app:backgroundTint="@android:color/holo_orange_light"
+        android:tint="@android:color/holo_orange_dark"
+        android:visibility="invisible"/>
 </android.support.design.widget.CoordinatorLayout>
